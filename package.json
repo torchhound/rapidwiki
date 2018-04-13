@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/torchhound/rapidwiki/issues"
   },
-  "homepage": "https://github.com/torchhound/rapidwiki#readme"
+  "homepage": "https://github.com/torchhound/rapidwiki#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.8",
+    "express": "^4.16.3",
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0",
+    "supertest": "^3.0.0",
+    "tape": "^4.9.0"
+  }
 }

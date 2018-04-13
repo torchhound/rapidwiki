@@ -22,11 +22,38 @@
     </div>
   </div>
 </nav>
+    <div class="container-fluid">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <form class="form-inline" method="POST" id="createForm" action="/api/create">
+            <input type="text" id="title" placeholder="Title">
+            <input type="text" id="body" placeholder="Body">
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="alert alert-info alert-dismissible collapse" role="alert" id="formResponse">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="alert alert-warning alert-dismissible collapse" role="alert" id="formWarning">
+        Incomplete Form!
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
     </main>
     <footer class="footer">
       <div class="container text-center">
         <span>Place sticky footer content here.</span>
       </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="js/create.js"></script>
   </body>
 </html>
