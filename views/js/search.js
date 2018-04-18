@@ -1,24 +1,21 @@
- $(document).ready(function() {
- 	var form = $('#createForm');
+$(document).ready(function() {
+ 	var form = $('#searchForm');
 	form.submit(function(event) {
 		event.preventDefault();
-		var title = $('#title').val();
-		var body = $('#body').val();
-		var category = $('#category').val();
+		var search = $('#search').val();
 
-		if (title === '' || body === '' || category === '') {
+		if (search === '') {
 			$('#formWarning').show();
 		} else {
 			$.ajax({
             	type: 'POST',
-            	url: '/api/create',
-            	data: JSON.stringify({title: title, body: body, category: category}),
+            	url: '/api/search',
+            	data: JSON.stringify({search: search}),
             	contentType : "application/json",
             	success: function(data){
-                	$('formResponse').html(data).show();
-                	form.each(function(){
-    					this.reset();
-					});
+                	for (var i = data.length - 1; i >= 0; i--) {
+						$('#output').append($("<li><a href='/view/pages/" + data[i].title + "'>" + data[i].title + "</a>"));
+					}
             	},
             	failure: function(jqXHR, textStatus, errorThrown){
                 	$('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();

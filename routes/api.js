@@ -30,7 +30,7 @@ router.post('/create', function(req, res, next) {
   } else {
     sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category})
       .then(x => {
-        res.status(201).send(x);
+        res.status(200).send(x);
       })
       .catch(err => {
         res.status(400).send(`Database error: ${err}`);
@@ -73,6 +73,25 @@ router.get('/recent', function(req, res, next) {
       res.status(200).send(JSON.stringify({"recent": "Nothing recent in database"}));
     } else {
       res.status(200).send(recent);
+    }
+  })
+});
+
+router.post('/search', function(req, res, next) {
+  sequelize.Page.all({
+    raw: true,
+    limit: 50,
+    where: {
+      title: {
+        like: req.body.search + '%'
+      }
+    }
+  }).then(results => {
+    if (results  === undefined || results .length == 0) {
+      res.status(200).send(JSON.stringify({"results": "No results in database"}));
+    } else {
+      console.log(results);
+      res.status(200).send(results);
     }
   })
 });
