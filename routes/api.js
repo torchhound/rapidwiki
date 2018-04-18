@@ -28,7 +28,7 @@ router.post('/create', function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
-    sequelize.Page.create({title: req.body.title, body: req.body.body})
+    sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category})
       .then(x => {
         console.log('201');
         res.status(201).send(x);

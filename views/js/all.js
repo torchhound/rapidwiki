@@ -3,9 +3,8 @@ $(document).ready(function() {
 		type: 'GET',
 		url: '/api/all',
 		success: function(data) {
-			//var jsonResponse = JSON.parse(data);
 			for (var i = data.length - 1; i >= 0; i--) {
-				$('#output').append($('<li>').text(data[i].title + '\n' + data[i].body + '\n'));
+				$('#output').append($("<li><a href='/view/" + data[i].title + "'>" + data[i].title + "</a>"));
 			}
 		}
 	})

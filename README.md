@@ -1,6 +1,6 @@
 # rapidwiki
 
-Wiki built with express, sqlite3, and Bootstrap.
+Wiki built with Express, Sqlite, Sequelize and Bootstrap.
 
 # Installing
 
@@ -13,4 +13,4 @@ Wiki built with express, sqlite3, and Bootstrap.
 or
 
 
-node index.js or specify a port with PORT=5002 node index.js
+`node index.js` or specify a port with `PORT=5002 node index.js`

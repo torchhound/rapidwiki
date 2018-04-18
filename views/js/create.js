@@ -4,6 +4,7 @@
 		event.preventDefault();
 		var title = $('#title').val();
 		var body = $('#body').val();
+		var category = $('#category').val();
 
 		if (title === '' || body === '') {
 			$('#formWarning').show();
@@ -11,7 +12,7 @@
 			$.ajax({
             	type: 'POST',
             	url: '/api/create',
-            	data: JSON.stringify({title: title, body: body}),
+            	data: JSON.stringify({title: title, body: body, category: category}),
             	contentType : "application/json",
             	statusCode: {
             		201: function(data){
