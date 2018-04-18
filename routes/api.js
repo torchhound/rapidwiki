@@ -18,7 +18,7 @@ sequelize.authenticate()
 sequelize.Page = sequelize.import('../models/Page');
 
 sequelize.sync({ force: true })
-	.then(function(err) {
+	.then(function(data) {
     	console.log('Database synced!');
   	}, function (err) {
     	console.log('An error occurred while creating the table:', err);
@@ -30,11 +30,9 @@ router.post('/create', function(req, res, next) {
   } else {
     sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category})
       .then(x => {
-        console.log('201');
         res.status(201).send(x);
       })
       .catch(err => {
-        console.log('400');
         res.status(400).send(`Database error: ${err}`);
       })
   }
@@ -43,13 +41,40 @@ router.post('/create', function(req, res, next) {
 router.get('/all', function(req, res, next) {
   sequelize.Page.all({raw: true}).then(pages => {
     if (pages === undefined || pages.length == 0) {
-      console.log('Empty');
       res.status(200).send(JSON.stringify({"title": "No pages in database", "body": ""}));
     } else {
-      console.log('Not Empty');
       res.status(200).send(pages);
     }
   })
-})
+});
+
+router.get('/categories', function(req, res, next) {
+  sequelize.Page.all({
+    raw: true,
+    attributes: [
+      [sequelize.fn('DISTINCT', sequelize.col('category')), 'category'],
+    ]
+  }).then(categories => {
+    if (categories === undefined || categories.length == 0) {
+      res.status(200).send(JSON.stringify({"category": "No categories in database"}));
+    } else {
+      res.status(200).send(categories);
+    }
+  })
+});
+
+router.get('/recent', function(req, res, next) {
+  sequelize.Page.all({
+    raw: true,
+    limit: 50,
+    order: [['timestamp', 'DESC']]
+  }).then(recent => {
+    if (recent === undefined || recent.length == 0) {
+      res.status(200).send(JSON.stringify({"recent": "Nothing recent in database"}));
+    } else {
+      res.status(200).send(recent);
+    }
+  })
+});
 
 module.exports = router;
