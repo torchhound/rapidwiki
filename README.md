@@ -1,6 +1,6 @@
-# rapidwiki
+# RapidWiki
 
-Wiki built with Express, Sqlite, Sequelize and Bootstrap.
+Wiki built with Express, Sqlite, Sequelize, Showdown, and Bootstrap.
 
 # Installing
 
