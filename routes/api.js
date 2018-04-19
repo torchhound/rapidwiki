@@ -1,7 +1,9 @@
 var express = require('express');
 var Sequelize = require('sequelize');
+var showdown = require('showdown');
 
 var router = express.Router();
+var converter = new showdown.Converter();
 
 var sequelize = new Sequelize('wikiDb', null, null, {
     dialect: "sqlite",
@@ -87,7 +89,7 @@ router.post('/search', function(req, res, next) {
       }
     }
   }).then(results => {
-    if (results  === undefined || results .length == 0) {
+    if (results  === undefined || results.length == 0) {
       res.status(200).send(JSON.stringify({"results": "No results in database"}));
     } else {
       console.log(results);
@@ -103,10 +105,27 @@ router.get('/view/category/:category', function(req, res, next) {
       category: req.params.category
     }
   }).then(constituents => {
-    if (constituents === undefined || constituents .length == 0) {
+    if (constituents === undefined || constituents.length == 0) {
       res.status(200).send(JSON.stringify({"constituents": "Nothing in that category in database"}));
     } else {
       res.status(200).send(constituents);
+    }
+  })
+});
+
+router.get('/view/page/:title', function(req, res, next) {
+  sequelize.Page.findOne({
+    raw: true,
+    where: {
+      title: req.params.title
+    }
+  }).then(page => {
+    if (page === undefined) {
+      res.status(200).send(JSON.stringify({"page": "No page in database"}));
+    } else {
+      let title = '<h1>' + page.title + '</h1>';
+      let html = title + '<br>' + converter.makeHtml(page.body);
+      res.status(200).send(JSON.stringify({"html": html}));
     }
   })
 });

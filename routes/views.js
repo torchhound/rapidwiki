@@ -30,4 +30,8 @@ router.get('/view/category/*', function(req, res, next) {
 	res.render('category.html');
 });
 
+router.get('/view/page/*', function(req, res, next) {
+	res.render('page.html');
+});
+
 module.exports = router;

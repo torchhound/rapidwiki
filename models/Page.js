@@ -2,7 +2,10 @@ var Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
   var Page = sequelize.define('Page', {
-    	title: Sequelize.STRING,
+    	title: {
+    		type: Sequelize.STRING,
+    		unique: true
+    	},
     	body: Sequelize.TEXT,
     	category: Sequelize.TEXT,
     	timestamp: Sequelize.NOW
