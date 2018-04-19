@@ -43,7 +43,7 @@ router.post('/create', function(req, res, next) {
 router.get('/all', function(req, res, next) {
   sequelize.Page.all({raw: true}).then(pages => {
     if (pages === undefined || pages.length == 0) {
-      res.status(200).send(JSON.stringify({"title": "No pages in database", "body": ""}));
+      res.status(200).send([{"title": "No pages in database"}]);
     } else {
       res.status(200).send(pages);
     }
@@ -58,7 +58,7 @@ router.get('/categories', function(req, res, next) {
     ]
   }).then(categories => {
     if (categories === undefined || categories.length == 0) {
-      res.status(200).send(JSON.stringify({"category": "No categories in database"}));
+      res.status(200).send([{"category": "No categories in database"}]);
     } else {
       res.status(200).send(categories);
     }
@@ -72,7 +72,7 @@ router.get('/recent', function(req, res, next) {
     order: [['timestamp', 'DESC']]
   }).then(recent => {
     if (recent === undefined || recent.length == 0) {
-      res.status(200).send(JSON.stringify({"recent": "Nothing recent in database"}));
+      res.status(200).send([{"title": "Nothing recent in database"}]);
     } else {
       res.status(200).send(recent);
     }
@@ -90,9 +90,8 @@ router.post('/search', function(req, res, next) {
     }
   }).then(results => {
     if (results  === undefined || results.length == 0) {
-      res.status(200).send(JSON.stringify({"results": "No results in database"}));
+      res.status(200).send([{"title": "No results in database"}]);
     } else {
-      console.log(results);
       res.status(200).send(results);
     }
   })
@@ -106,7 +105,7 @@ router.get('/view/category/:category', function(req, res, next) {
     }
   }).then(constituents => {
     if (constituents === undefined || constituents.length == 0) {
-      res.status(200).send(JSON.stringify({"constituents": "Nothing in that category in database"}));
+      res.status(200).send([{"title": "Nothing in that category in database"}]);
     } else {
       res.status(200).send(constituents);
     }
@@ -120,12 +119,12 @@ router.get('/view/page/:title', function(req, res, next) {
       title: req.params.title
     }
   }).then(page => {
-    if (page === undefined) {
-      res.status(200).send(JSON.stringify({"page": "No page in database"}));
+    if (page === undefined || page === null) {
+      res.status(200).send({"html": "<h1>No such page in database</h1>"});
     } else {
       let title = '<h1>' + page.title + '</h1>';
       let html = title + '<br>' + converter.makeHtml(page.body);
-      res.status(200).send(JSON.stringify({"html": html}));
+      res.status(200).send({"html": html});
     }
   })
 });

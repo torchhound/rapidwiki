@@ -1,10 +1,11 @@
 $(document).ready(function() {
+	document.title = window.location.pathname.split("/").pop();
 	$.ajax({
 		type: 'GET',
 		url: '/api/view/page/' + window.location.pathname.split("/").pop(),
 		success: function(data) {
-			var out = JSON.parse(data);
-			$('#output').append($.parseHTML(out.html));
+			$('#output').empty();
+			$('#output').append($.parseHTML(data.html));
 		}
 	})
 });

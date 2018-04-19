@@ -13,6 +13,7 @@ $(document).ready(function() {
             	data: JSON.stringify({search: search}),
             	contentType : "application/json",
             	success: function(data){
+            		$('#output').empty();
                 	for (var i = data.length - 1; i >= 0; i--) {
 						$('#output').append($("<li><a href='/view/pages/" + data[i].title + "'>" + data[i].title + "</a>"));
 					}
