@@ -96,4 +96,19 @@ router.post('/search', function(req, res, next) {
   })
 });
 
+router.get('/view/category/:category', function(req, res, next) {
+  sequelize.Page.all({
+    raw: true,
+    where: {
+      category: req.params.category
+    }
+  }).then(constituents => {
+    if (constituents === undefined || constituents .length == 0) {
+      res.status(200).send(JSON.stringify({"constituents": "Nothing in that category in database"}));
+    } else {
+      res.status(200).send(constituents);
+    }
+  })
+});
+
 module.exports = router;

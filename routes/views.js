@@ -26,4 +26,8 @@ router.get('/categories', function(req, res, next) {
 	res.render('categories.html');
 });
 
+router.get('/view/category/*', function(req, res, next) {
+	res.render('category.html');
+});
+
 module.exports = router;
