@@ -15,7 +15,7 @@
             	data: JSON.stringify({title: title, body: body, category: category}),
             	contentType : "application/json",
             	success: function(data){
-                	$('formResponse').html(data).show();
+                	$('#formResponse').append(data.create).show();
                 	form.each(function(){
     					this.reset();
 					});
@@ -27,3 +27,17 @@
 		};
 	});
 });
+
+$(document).ready(function() {
+    $('#formWarning').hide();
+    $('formResponse').hide();
+});
+
+ $(document).ready(function() {
+    $('#closeWarning').on("click", function(){
+        $('#formWarning').hide();
+    });
+    $('#closeResponse').on("click", function(){
+        $('#formResponse').hide();
+    });
+ });

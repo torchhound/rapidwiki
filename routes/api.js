@@ -32,10 +32,10 @@ router.post('/create', function(req, res, next) {
   } else {
     sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category})
       .then(x => {
-        res.status(200).send(x);
+        res.status(200).send({"create": "Page successfully created!"});
       })
       .catch(err => {
-        res.status(400).send(`Database error: ${err}`);
+        res.status(400).send({"create": `Database error: ${err}`});
       })
   }
 });
