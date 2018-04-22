@@ -124,9 +124,34 @@ router.get('/view/page/:title', function(req, res, next) {
     } else {
       let title = '<h1>' + page.title + '</h1>';
       let html = title + '<br>' + converter.makeHtml(page.body);
-      res.status(200).send({"html": html});
+      res.status(200).send({"html": html, "raw": page});
     }
   })
+});
+
+router.post('/edit', function(req, res, next) {
+  if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
+    res.status(400).send('Empty JSON');
+  } else {
+    sequelize.Page.findOne({
+      where: {
+        title: req.body.title
+      }
+    }).then(page => {
+      if(page === undefined || page === null) {
+        res.status(400).send({"edit": "Page not found"});
+      } else {
+        page.updateAttributes({
+          body: req.body.body,
+          category: req.body.category
+        }).then(function() {
+          res.status(200).send({"edit": "Page successfully updated!"});
+        }).catch(function() {
+          res.status(400).send({"edit": "Page update unsuccessful..."});
+        })
+      }
+    })
+  }
 });
 
 module.exports = router;

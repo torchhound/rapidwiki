@@ -15,7 +15,8 @@
             	data: JSON.stringify({title: title, body: body, category: category}),
             	contentType : "application/json",
             	success: function(data){
-                	$('#formResponse').append(data.create).show();
+                	$('#formResponseSpan').empty().append(data.create)
+                    $('#formResponse').show();
                 	form.each(function(){
     					this.reset();
 					});
@@ -26,11 +27,6 @@
         	});
 		};
 	});
-});
-
-$(document).ready(function() {
-    $('#formWarning').hide();
-    $('formResponse').hide();
 });
 
  $(document).ready(function() {
