@@ -120,11 +120,11 @@ router.get('/view/page/:title', function(req, res, next) {
     }
   }).then(page => {
     if (page === undefined || page === null) {
-      res.status(200).send({"html": "<h1>No such page in database</h1>"});
+      res.status(200).send({"html": "<h1>No such page in database</h1>", "empty": "true"});
     } else {
       let title = '<h1>' + page.title + '</h1>';
       let html = title + '<br>' + converter.makeHtml(page.body);
-      res.status(200).send({"html": html, "raw": page});
+      res.status(200).send({"html": html, "empty": "false","raw": page});
     }
   })
 });

@@ -4,13 +4,24 @@ $(document).ready(function() {
 		type: 'GET',
 		url: '/api/view/page/' + window.location.pathname.split("/").pop(),
 		success: function(data) {
-			$('#output').empty().append($.parseHTML(data.html));
-			$('#title').empty().val(data.raw.title);
-			$('#body').empty().val(data.raw.body);
-			$('#category').empty().val(data.raw.category);
+			if (data.empty === "true") {
+				document.title = 'Not Found';
+				$('#edit').hide();
+				prepareEditForm(data);
+			} else {
+				$('#edit').show();
+				prepareEditForm(data);
+			}
 		}
 	})
 });
+
+function prepareEditForm(data) {
+	$('#output').empty().append($.parseHTML(data.html));
+	$('#title').empty().val(data.raw.title);
+	$('#body').empty().val(data.raw.body);
+	$('#category').empty().val(data.raw.category);
+}
 
 $(document).ready(function() {
  	var form = $('#editForm');
