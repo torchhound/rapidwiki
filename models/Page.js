@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     	},
     	body: Sequelize.TEXT,
     	category: Sequelize.TEXT,
-    	timestamp: Sequelize.NOW
+    	timestamp: Sequelize.TEXT
 	});
   return Page;
 };

@@ -1,6 +1,9 @@
 var express = require('express');
 var Sequelize = require('sequelize');
 var showdown = require('showdown');
+var crypto = require('crypto');
+var diff = require('diff');
+var moment = require('moment');
 
 var router = express.Router();
 var converter = new showdown.Converter();
@@ -18,6 +21,7 @@ sequelize.authenticate()
   	});
 
 sequelize.Page = sequelize.import('../models/Page');
+sequelize.Diff = sequelize.import('../models/Diff');
 
 sequelize.sync({ force: true })
 	.then(function(data) {
@@ -30,12 +34,21 @@ router.post('/create', function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
-    sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category})
+    sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category, 
+      timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
       .then(x => {
-        res.status(200).send({"create": "Page successfully created!"});
+        let computedDiff = JSON.stringify({"count": 1, "added": true, "value": req.body.body});
+        sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
+          hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
+        .then(y => {
+          res.status(200).send({"create": "Page successfully created!"});
+        })
+        .catch(err => {
+          res.status(400).send({"create": `Database diff error: ${err}`});
+        })
       })
       .catch(err => {
-        res.status(400).send({"create": `Database error: ${err}`});
+        res.status(400).send({"create": `Database page error: ${err}`});
       })
   }
 });
@@ -113,18 +126,27 @@ router.get('/view/category/:category', function(req, res, next) {
 });
 
 router.get('/view/page/:title', function(req, res, next) {
-  sequelize.Page.findOne({
-    raw: true,
-    where: {
-      title: req.params.title
-    }
-  }).then(page => {
-    if (page === undefined || page === null) {
+  return Promise.all([
+    sequelize.Page.findOne({
+      raw: true,
+      where: {
+        title: req.params.title
+      }
+    }),
+    sequelize.Diff.findAll({
+      raw: true,
+      where: {
+        title: req.params.title
+      }
+    })
+  ])
+  .then( ([page, diff]) => {
+    if (page === undefined || page === null || diff === undefined || diff=== null) {
       res.status(200).send({"html": "<h1>No such page in database</h1>", "empty": "true"});
     } else {
       let title = '<h1>' + page.title + '</h1>';
       let html = title + '<br>' + converter.makeHtml(page.body);
-      res.status(200).send({"html": html, "empty": "false","raw": page});
+      res.status(200).send({"html": html, "empty": "false","raw": page, "diff": diff});
     }
   })
 });
@@ -141,13 +163,18 @@ router.post('/edit', function(req, res, next) {
       if(page === undefined || page === null) {
         res.status(400).send({"edit": "Page not found"});
       } else {
-        page.updateAttributes({
-          body: req.body.body,
-          category: req.body.category
-        }).then(function() {
-          res.status(200).send({"edit": "Page successfully updated!"});
-        }).catch(function() {
-          res.status(400).send({"edit": "Page update unsuccessful..."});
+        let computedDiff = diff.diffWordsWithSpace(page.body, req.body.body);
+        sequelize.Diff.create({title: req.body.title, difference: JSON.stringify(computedDiff), category: req.body.category, 
+          hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
+        .then(x => {
+          page.updateAttributes({
+            body: req.body.body,
+            category: req.body.category
+          }).then(function() {
+            res.status(200).send({"edit": "Page successfully updated!"});
+          }).catch(function() {
+            res.status(400).send({"edit": "Page update unsuccessful..."});
+          })
         })
       }
     })

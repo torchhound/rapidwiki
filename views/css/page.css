@@ -5,3 +5,9 @@
 #formResponse, #formWarning {
 	display: none;
 }
+
+li {
+	white-space: pre;
+	list-style-type: none;
+	padding: 10px;
+}
