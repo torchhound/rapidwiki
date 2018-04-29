@@ -2,7 +2,7 @@ var express = require('express');
 var Sequelize = require('sequelize');
 var showdown = require('showdown');
 var crypto = require('crypto');
-var diff = require('diff');
+var jsDiff = require('diff');
 var moment = require('moment');
 
 var router = express.Router();
@@ -37,7 +37,7 @@ router.post('/create', function(req, res, next) {
     sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category, 
       timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
       .then(x => {
-        let computedDiff = JSON.stringify({"count": 1, "added": true, "value": req.body.body});
+        let computedDiff = [{count: 1, added: true, value: req.body.body}];
         sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
           hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
         .then(y => {
@@ -146,6 +146,16 @@ router.get('/view/page/:title', function(req, res, next) {
     } else {
       let title = '<h1>' + page.title + '</h1>';
       let html = title + '<br>' + converter.makeHtml(page.body);
+      diff.forEach(function(history) {
+        let outer = JSON.parse(history.difference);
+        let diffHtml = "";
+        outer.forEach(function(part) {
+          let color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+          let span = "<span style='color:" + color + "'>" + part.value + "</span>";
+          diffHtml += span;
+        });
+        history.difference = diffHtml;
+      });
       res.status(200).send({"html": html, "empty": "false","raw": page, "diff": diff});
     }
   })
@@ -163,19 +173,23 @@ router.post('/edit', function(req, res, next) {
       if(page === undefined || page === null) {
         res.status(400).send({"edit": "Page not found"});
       } else {
-        let computedDiff = diff.diffWordsWithSpace(page.body, req.body.body);
-        sequelize.Diff.create({title: req.body.title, difference: JSON.stringify(computedDiff), category: req.body.category, 
-          hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
-        .then(x => {
-          page.updateAttributes({
-            body: req.body.body,
-            category: req.body.category
-          }).then(function() {
-            res.status(200).send({"edit": "Page successfully updated!"});
-          }).catch(function() {
-            res.status(400).send({"edit": "Page update unsuccessful..."});
+        if (page.body === req.body.body) {
+          res.status(400).send({"edit": "Page update unsuccessful..."});
+        } else {
+          let computedDiff = jsDiff.diffChars(page.body, req.body.body);
+          sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
+            hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
+          .then(x => {
+            page.updateAttributes({
+              body: req.body.body,
+              category: req.body.category
+            }).then(function() {
+              res.status(200).send({"edit": "Page successfully updated!"});
+            }).catch(function() {
+              res.status(400).send({"edit": "Page update unsuccessful..."});
+            })
           })
-        })
+        }
       }
     })
   }
