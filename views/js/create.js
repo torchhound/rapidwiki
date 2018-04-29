@@ -5,6 +5,7 @@
 		var title = $('#title').val();
 		var body = $('#body').val();
 		var category = $('#category').val();
+        title = $('<p>' + title + '</p>').text();
 
 		if (title === '' || body === '' || category === '') {
 			$('#formWarning').show();
@@ -13,16 +14,13 @@
             	type: 'POST',
             	url: '/api/create',
             	data: JSON.stringify({title: title, body: body, category: category}),
-            	contentType : "application/json",
-            	success: function(data){
+            	contentType: "application/json",
+            	success: function(data) {
                 	$('#formResponseSpan').empty().append(data.create)
                     $('#formResponse').show();
                 	form.each(function(){
     					this.reset();
 					});
-            	},
-            	failure: function(jqXHR, textStatus, errorThrown){
-                	$('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
             	}
         	});
 		};
