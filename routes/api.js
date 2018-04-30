@@ -7,6 +7,7 @@ var moment = require('moment');
 
 var router = express.Router();
 var converter = new showdown.Converter();
+const maxChars = 80;
 
 var sequelize = new Sequelize('wikiDb', null, null, {
     dialect: "sqlite",
@@ -34,7 +35,16 @@ router.post('/create', function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
-    sequelize.Page.create({title: req.body.title, body: req.body.body, category: req.body.category, 
+    let title = req.body.title;
+    let category = req.body.category;
+    if (title.length > maxChars) {
+      title = title.substr(0, maxChars);
+    } else if (category.length > maxChars) {
+      category = category.substr(0, maxChars);
+    }
+    title = title.replace(/[^a-z0-9\s]+/gi, '');
+    category = category.replace(/[^a-z0-9\s]+/gi, '');
+    sequelize.Page.create({title: title, body: req.body.body, category: category, 
       timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
       .then(x => {
         let computedDiff = [{count: 1, added: true, value: req.body.body}];

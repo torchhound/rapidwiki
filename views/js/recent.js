@@ -8,7 +8,7 @@ $(document).ready(function() {
 				$('#output').append($("<li><b>" + data[0].error + "</b>"));
 			} else {
 				for (var i = data.length - 1; i >= 0; i--) {
-					$('#output').append($("<li><a href='/view/pages/" + data[i].title + "'>" + data[i].title + "</a>"));
+					$('#output').append($("<li><a href='/view/page/" + data[i].title + "'>" + data[i].title + "</a>"));
 				}
 			}
 		}
