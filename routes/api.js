@@ -56,7 +56,7 @@ router.post('/create', function(req, res, next) {
 router.get('/all', function(req, res, next) {
   sequelize.Page.all({raw: true}).then(pages => {
     if (pages === undefined || pages.length == 0) {
-      res.status(200).send([{"title": "No pages in database"}]);
+      res.status(200).send([{"title": "", "error": "No pages in database"}]);
     } else {
       res.status(200).send(pages);
     }
@@ -71,7 +71,7 @@ router.get('/categories', function(req, res, next) {
     ]
   }).then(categories => {
     if (categories === undefined || categories.length == 0) {
-      res.status(200).send([{"category": "No categories in database"}]);
+      res.status(200).send([{"category": "", "error": "No categories in database"}]);
     } else {
       res.status(200).send(categories);
     }
@@ -85,7 +85,7 @@ router.get('/recent', function(req, res, next) {
     order: [['timestamp', 'DESC']]
   }).then(recent => {
     if (recent === undefined || recent.length == 0) {
-      res.status(200).send([{"title": "Nothing recent in database"}]);
+      res.status(200).send([{"title": "", "error": "Nothing recent in database"}]);
     } else {
       res.status(200).send(recent);
     }
@@ -103,7 +103,7 @@ router.post('/search', function(req, res, next) {
     }
   }).then(results => {
     if (results  === undefined || results.length == 0) {
-      res.status(200).send([{"title": "No results in database"}]);
+      res.status(200).send([{"title": "", "error": "No results in database"}]);
     } else {
       res.status(200).send(results);
     }
