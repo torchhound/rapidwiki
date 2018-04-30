@@ -16,11 +16,18 @@
             	data: JSON.stringify({title: title, body: body, category: category}),
             	contentType: "application/json",
             	success: function(data) {
-                	$('#formResponseSpan').empty().append(data.create)
-                    $('#formResponse').show();
-                	form.each(function(){
-    					this.reset();
-					});
+                    if (data.create === "") {
+                        $('#formResponse').removeClass("alert-info").addClass("alert-danger");
+                        $('#formResponseSpan').empty().append(data.error);
+                        $('#formResponse').show();
+                    } else {
+                        $('#formResponse').removeClass("alert-danger").addClass("alert-info");
+                        $('#formResponseSpan').empty().append(data.create);
+                        $('#formResponse').show();
+                        form.each(function(){
+                            this.reset();
+                        });
+                    }
             	}
         	});
 		};

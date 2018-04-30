@@ -44,11 +44,11 @@ router.post('/create', function(req, res, next) {
           res.status(200).send({"create": "Page successfully created!"});
         })
         .catch(err => {
-          res.status(400).send({"create": `Database diff error: ${err}`});
+          res.status(200).send({"create": "", "error": `Database diff error: ${err}`});
         })
       })
       .catch(err => {
-        res.status(400).send({"create": `Database page error: ${err}`});
+        res.status(200).send({"create": "", "error": `Database page error: ${err}`});
       })
   }
 });
