@@ -2,10 +2,19 @@
  	var form = $('#createForm');
 	form.submit(function(event) {
 		event.preventDefault();
+        const maxChars = 80;
 		var title = $('#title').val();
 		var body = $('#body').val();
 		var category = $('#category').val();
         title = $('<p>' + title + '</p>').text();
+        category = $('<p>' + category + '</p>').text();
+        if (title.length > maxChars) {
+            title = title.substr(0, maxChars);
+        } else if (category.length > maxChars) {
+            category = category.substr(0, maxChars);
+        }
+        title = title.replace(/[^a-z0-9\s]+/gi, '');
+        category = category.replace(/[^a-z0-9\s]+/gi, '');
 
 		if (title === '' || body === '' || category === '') {
 			$('#formWarning').show();
