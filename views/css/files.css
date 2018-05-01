@@ -1,0 +1,9 @@
+li {
+	white-space: pre;
+	list-style-type: none;
+	padding: 10px;
+}
+
+#fileForm {
+	margin: 10px;
+}

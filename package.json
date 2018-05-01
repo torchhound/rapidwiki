@@ -21,10 +21,12 @@
   "homepage": "https://github.com/torchhound/rapidwiki#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "del": "^3.0.0",
     "diff": "^3.5.0",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "moment": "^2.22.1",
+    "multer": "^1.3.0",
     "sequelize": "^4.37.6",
     "showdown": "^1.8.6",
     "sqlite3": "^4.0.0",

@@ -1,12 +1,21 @@
-var express = require('express');
-var Sequelize = require('sequelize');
-var showdown = require('showdown');
-var crypto = require('crypto');
-var jsDiff = require('diff');
-var moment = require('moment');
+const express = require('express');
+const Sequelize = require('sequelize');
+const showdown = require('showdown');
+const crypto = require('crypto');
+const jsDiff = require('diff');
+const moment = require('moment');
+const multer = require('multer');
+const fs = require('fs');
 
-var router = express.Router();
-var converter = new showdown.Converter();
+const router = express.Router();
+const converter = new showdown.Converter();
+var storage = multer.diskStorage({
+    destination: './uploads',
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+var upload = multer({ storage: storage });
 const maxChars = 80;
 
 var sequelize = new Sequelize('wikiDb', null, null, {
@@ -203,6 +212,22 @@ router.post('/edit', function(req, res, next) {
       }
     })
   }
+});
+
+router.post('/file', upload.single('file'), function(req, res, next) {
+  if (!req.file) {
+    res.status(200).send({"files": "No file present...", "error": true}); 
+  } else {
+    res.status(200).send({"files": "Files uploaded successfully!", "error": false}); 
+  }
+});
+
+router.get('/files', function(req, res, next) {
+  let uploadedFiles = [];
+  fs.readdirSync('./uploads').forEach(file => {
+    uploadedFiles.push(file);
+  })
+  res.status(200).send({"files": uploadedFiles}); 
 });
 
 module.exports = router;

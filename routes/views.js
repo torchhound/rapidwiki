@@ -34,4 +34,8 @@ router.get('/view/page/*', function(req, res, next) {
 	res.render('page.html');
 });
 
+router.get('/files', function(req, res, next) {
+	res.render('files.html');
+});
+
 module.exports = router;
