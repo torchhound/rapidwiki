@@ -27,22 +27,38 @@
     <div class="row">
       <div class="col-md-12" id="output"></div>
     </div>
-    <div class="row" id="edit">
-        <h1 class="col-md-12">Edit</h1>
-        <div class="col-md-12">
-          <form autocomplete="off" method="POST" id="editForm" action="/api/edit">
-            <div class="form-group">
-              <label for="body">Page Content</label>
-              <textarea class="form-control" rows="10" id="body" autocomplete="off" placeholder="Content"></textarea>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseEdit" aria-expanded="true" aria-controls="collapseOne">
+             Edit
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapseEdit" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+          <div class="row" id="edit">
+          <h1 class="col-md-12">Edit</h1>
+            <div class="col-md-12">
+              <form autocomplete="off" method="POST" id="editForm" action="/api/edit">
+                <div class="form-group">
+                  <label for="body">Page Content</label>
+                  <textarea class="form-control" rows="10" id="body" autocomplete="off" placeholder="Content"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <input class="form-control" type="text" id="category" autocomplete="off" placeholder="Category">
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+              </form>
             </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <input class="form-control" type="text" id="category" autocomplete="off" placeholder="Category">
-            </div>
-            <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-          </form>
+          </div>
+          </div>
         </div>
       </div>
+    </div>
       <div class="row">
         <div class="alert alert-info col-md-12" id="formResponse">
           <span id="formResponseSpan"></span>
@@ -59,10 +75,26 @@
           </button>
         </div>
       </div>
-      <div class="row" id="history">
-        <h1 class="col-md-12">History</h1>
-        <div class="col-md-12" id="historyOutput"></div>
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseHistory" aria-expanded="true" aria-controls="collapseOne">
+             History
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapseHistory" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <div class="row" id="history">
+              <h1 class="col-md-12">History</h1>
+              <div class="col-md-12" id="historyOutput"></div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
     </main>
     <footer class="footer">
       <div class="container text-center">

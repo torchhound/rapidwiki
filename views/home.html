@@ -27,29 +27,33 @@
     <div class="row">
   <div class="col-4">
     <div class="list-group" id="list-tab" role="tablist">
-      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Search</a>
-      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Create</a>
-      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">All</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Categories</a>
-      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Recent</a>
+      <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-search" role="tab" aria-controls="home">Search</a>
+      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-create" role="tab" aria-controls="profile">Create</a>
+      <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-all" role="tab" aria-controls="messages">All</a>
+      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-categories" role="tab" aria-controls="settings">Categories</a>
+      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-recent" role="tab" aria-controls="settings">Recent</a>
+      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-files" role="tab" aria-controls="settings">Files</a>
     </div>
   </div>
   <div class="col-8">
     <div class="tab-content" id="nav-tabContent" style="margin-top: 20px">
-      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+      <div class="tab-pane fade show active" id="list-search" role="tabpanel" aria-labelledby="list-home-list">
         <span class="align-middle">Search for wiki pages by title.</span>
       </div>
-      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+      <div class="tab-pane fade" id="list-create" role="tabpanel" aria-labelledby="list-profile-list">
         <span class="align-middle">Create new wiki pages.</span>
       </div>
-      <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+      <div class="tab-pane fade" id="list-all" role="tabpanel" aria-labelledby="list-messages-list">
         <span class="align-middle">Display a list of all page titles in the wiki.</span>
       </div>
-      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+      <div class="tab-pane fade" id="list-categories" role="tabpanel" aria-labelledby="list-settings-list">
         <span class="align-middle">Display a list of all categories in the wiki.</span>
       </div>
-      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+      <div class="tab-pane fade" id="list-recent" role="tabpanel" aria-labelledby="list-settings-list">
         <span class="align-middle">Display a list of the 50 most recent pages in the wiki.</span>
+      </div>
+      <div class="tab-pane fade" id="list-files" role="tabpanel" aria-labelledby="list-settings-list">
+        <span class="align-middle">Upload a file to the wiki. Display a list files uploaded to the wiki.</span>
       </div>
     </div>
   </div>
