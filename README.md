@@ -4,7 +4,7 @@ Wiki built with Express, Sqlite, Sequelize, and Bootstrap.
 
 # Installing
 
-`npm install && mkdir uploads`
+`npm install && mkdir views/uploads`
 
 # Running
 

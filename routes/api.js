@@ -10,7 +10,7 @@ const fs = require('fs');
 const router = express.Router();
 const converter = new showdown.Converter();
 var storage = multer.diskStorage({
-    destination: './uploads',
+    destination: './views/uploads',
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
@@ -224,7 +224,7 @@ router.post('/file', upload.single('file'), function(req, res, next) {
 
 router.get('/files', function(req, res, next) {
   let uploadedFiles = [];
-  fs.readdirSync('./uploads').forEach(file => {
+  fs.readdirSync('./views/uploads').forEach(file => {
     uploadedFiles.push(file);
   })
   res.status(200).send({"files": uploadedFiles}); 
