@@ -8,11 +8,24 @@ $(document).ready(function() {
 				$('#output').append($("<li><b>No files on server</b>"));
 			} else {
 				for (var i = data.files.length - 1; i >= 0; i--) {
-					$('#output').append($("<li><span>" + data.files[i] + "</span>"));
+					$('#output').append($("<li><span>" + data.files[i] + "</span>" + 
+						"<button class='btn btn-danger deleteButtons' id=" + data.files[i] + ">Delete File</button>"));
 				}
 			}
 		}
 	})
+});
+
+$(document).ready(function() {
+	$('#output').on('click', '.deleteButtons', function() {
+		$.ajax({
+        	type: 'DELETE',
+        	url: '/api/delete/file/' + event.target.id,
+        	success: function(data){
+        		location.reload();
+        	}
+    	});
+	});	
 });
 
 $(document).ready(function() {

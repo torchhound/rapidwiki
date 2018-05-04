@@ -6,11 +6,13 @@ const jsDiff = require('diff');
 const moment = require('moment');
 const multer = require('multer');
 const fs = require('fs');
+const del = require('del');
 
+const fileDirectory = './views/uploads/';
 const router = express.Router();
 const converter = new showdown.Converter();
 var storage = multer.diskStorage({
-    destination: './views/uploads',
+    destination: fileDirectory,
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
@@ -224,10 +226,28 @@ router.post('/file', upload.single('file'), function(req, res, next) {
 
 router.get('/files', function(req, res, next) {
   let uploadedFiles = [];
-  fs.readdirSync('./views/uploads').forEach(file => {
+  fs.readdirSync(fileDirectory).forEach(file => {
     uploadedFiles.push(file);
   })
   res.status(200).send({"files": uploadedFiles}); 
+});
+
+router.delete('/delete/page/:page', function(req, res, next) {
+  sequelize.Page.destroy({
+    where: {
+      title: req.params.page
+    }
+  }).then(x => {
+    res.status(200).send();
+  })
+});
+
+router.delete('/delete/file/:file', function(req, res, next) {
+  console.log('delete' + fileDirectory + req.params.file);
+  del([fileDirectory + req.params.file])
+  .then(x => {
+    res.status(200).send();
+  })
 });
 
 module.exports = router;

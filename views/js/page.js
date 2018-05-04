@@ -61,11 +61,23 @@ $(document).ready(function() {
 	});
 });
 
- $(document).ready(function() {
-    $('#closeWarning').on("click", function(){
-        $('#formWarning').hide();
-    });
+$(document).ready(function() { 
+	$('#delete').click(function() {
+		$.ajax({
+        	type: 'DELETE',
+        	url: '/api/delete/page/' + window.location.pathname.split("/").pop(),
+        	success: function(data){
+        		window.location.href = '/create';
+        	}
+    	});
+	});
+});
+
+$(document).ready(function() {
+	$('#closeWarning').on("click", function(){
+		$('#formWarning').hide();
+	});
     $('#closeResponse').on("click", function(){
         $('#formResponse').hide();
     });
- });
+});
