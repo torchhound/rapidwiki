@@ -42,7 +42,7 @@ $(document).ready(function() {
 			$('#formWarning').show();
 		} else {
 			$.ajax({
-            	type: 'POST',
+            	type: 'PATCH',
             	url: '/api/edit',
             	data: JSON.stringify({title: window.location.pathname.split("/").pop(), 
             		body: body, category: category}),

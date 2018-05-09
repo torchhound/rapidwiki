@@ -26,11 +26,12 @@ var sequelize = new Sequelize('wikiDb', null, null, {
 });
 
 sequelize.authenticate()
-	.then(function(err) {
+	.then(function(data) {
     	console.log('Database connection successful!');
-  	}, function (err) {
-    	console.log('Unable to connect to the database:', err);
-  	});
+  }, function (err) {
+  	console.log('Unable to connect to the database:', err);
+  }
+);
 
 sequelize.Page = sequelize.import('../models/Page');
 sequelize.Diff = sequelize.import('../models/Diff');
@@ -38,9 +39,10 @@ sequelize.Diff = sequelize.import('../models/Diff');
 sequelize.sync({ force: true })
 	.then(function(data) {
     	console.log('Database synced!');
-  	}, function (err) {
-    	console.log('An error occurred while creating the table:', err);
-  	});
+  }, function (err) {
+  	console.log('An error occurred while creating the table:', err);
+  }
+);
 
 router.post('/create', function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
@@ -182,7 +184,7 @@ router.get('/view/page/:title', function(req, res, next) {
   })
 });
 
-router.post('/edit', function(req, res, next) {
+router.patch('/edit', function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
