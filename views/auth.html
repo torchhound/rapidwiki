@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"> 
-    <title>Files</title>  
+    <title>Authentication</title>  
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <link href="css/stickyFooter.css" rel="stylesheet">
-    <link href="css/files.css" rel="stylesheet">
+    <link href="css/auth.css" rel="stylesheet">
   </head>
   <body>
     <main class="container-fluid">
@@ -20,33 +20,29 @@
       <a class="nav-item nav-link" href="/all">All</a>
       <a class="nav-item nav-link" href="/categories">Categories</a>
       <a class="nav-item nav-link" href="/recent">Recent</a>
-      <a class="nav-item nav-link active" href="/files">Files</a>
-      <a class="nav-item nav-link" href="/auth">Authentication</a>
+      <a class="nav-item nav-link" href="/files">Files</a>
+      <a class="nav-item nav-link active" href="/auth">Authentication</a>
     </div>
   </div>
 </nav>
-    <form method="POST" action="/api/file" enctype="multipart/form-data" id="fileForm">
-      <input name="file" type="file" id="file" />
-      <input type="submit" value="Submit" class="btn btn-primary" id="submitButton" value="Upload" />
-    </form>
-    <div class="row">
-      <div class="alert alert-warning col-md-12" id="formWarning">
-        <span>No File!</span>
-        <button type="button" class="close" id="closeWarning" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="container-fluid">
+      <form class="form-signin" autocomplete="off" method="POST" id="authForm">
+        <h2 class="form-signin-heading">Login or Signup</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="signupButton">Signup</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="loginButton">Login</button>
+        <button class="btn btn-lg btn-danger btn-block" type="button" id="logoutButton">Logout</button>
+      </form>
+      <div class="row">
+        <div class="alert alert-warning alert-dismissible collapse col-md-12" id="formWarning">
+          <button type="button" class="close" id="closeWarning" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="alert alert-info col-md-12" id="formResponse">
-        <span id="formResponseSpan"></span>
-        <button type="button" class="close" id="closeResponse" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <div id="output"></div>
     </div>
     </main>
     <footer class="footer">
@@ -58,6 +54,6 @@
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <script src="js/files.js"></script>
+    <script src="js/auth.js"></script>
   </body>
 </html>

@@ -4,7 +4,10 @@ module.exports = function(sequelize, DataTypes) {
   var Page = sequelize.define('Page', {
     	title: {
     		type: Sequelize.STRING,
-    		unique: true
+    		unique: true,
+        validate: {
+          is: /^[a-z0-9\s]+/gi
+        }
     	},
     	body: Sequelize.TEXT,
     	category: Sequelize.TEXT,

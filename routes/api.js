@@ -11,16 +11,17 @@ const del = require('del');
 const fileDirectory = './views/uploads/';
 const router = express.Router();
 const converter = new showdown.Converter();
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: fileDirectory,
     filename: (req, file, cb) => {
         cb(null, file.originalname);
     }
 });
-var upload = multer({ storage: storage });
+
+const upload = multer({ storage: storage });
 const maxChars = 80;
 
-var sequelize = new Sequelize('wikiDb', null, null, {
+const sequelize = new Sequelize('wikiDb', null, null, {
     dialect: "sqlite",
     storage: './wiki.sqlite',
 });
@@ -35,6 +36,7 @@ sequelize.authenticate()
 
 sequelize.Page = sequelize.import('../models/Page');
 sequelize.Diff = sequelize.import('../models/Diff');
+sequelize.User = sequelize.import('../models/User');
 
 sequelize.sync({ force: true })
 	.then(function(data) {
@@ -250,6 +252,40 @@ router.delete('/delete/file/:file', function(req, res, next) {
   .then(x => {
     res.status(200).send();
   })
+});
+
+router.post('/auth/signup', function(req, res, next) {
+  sequelize.User.create({
+    username: req.body.username,
+    password: req.body.password
+  }).then(user => {
+    req.session.user = user.dataValues;
+    res.status(200).send({"signup": true});
+  }).catch(error => {
+    res.status(200).send({"error": error, "signup": false});
+  });
+});
+
+router.post('/auth/login', function(req, res, next) {
+  sequelize.User.findOne({
+    username: req.body.username
+  }).then(user => {
+    if (user === null || user === undefined || !user.validPassword(req.body.password)) {
+      res.status(200).send({"error": "Error logging you in...", "login": false});
+    } else {
+      req.session.user = user.dataValues;
+      res.status(200).send({"login": true})
+    }
+  })
+});
+
+router.get('/auth/logout', function(req, res, next) {
+  if (req.session.user && req.cookies.userId) {
+    res.clearCookie('userId');
+    res.status(200).send({"logout": true});
+  } else {
+    res.status(200).send({"logout": false});
+  }  
 });
 
 module.exports = router;
