@@ -9,8 +9,12 @@ const views = require('./routes/views')
 const port = process.env.PORT || 5000;
 const app = express();
 const http = require('http').Server(app);
-var env = process.env.ENV || 'dev'; //dev or prod
-var config = require('./config')[env];
+var env = process.env.ENV || 'dev'; //dev, test, or prod
+if (env === 'test') {
+    var config = {secret: "TEST_SECRET"};
+} else {
+    var config = require('./config')[env];
+}
 
 app.engine('html', require('ejs').renderFile); 
 app.set('view engine', 'html');

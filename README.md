@@ -1,5 +1,7 @@
 # RapidWiki
 
+[![Build Status](https://travis-ci.org/torchhound/rapidwiki.svg?branch=master)](https://travis-ci.org/torchhound/rapidwiki)
+
 Wiki built with Express, Sqlite, Sequelize, and Bootstrap.
 
 # Installing
