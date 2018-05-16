@@ -9,7 +9,7 @@ const views = require('./routes/views')
 const port = process.env.PORT || 5000;
 const app = express();
 const http = require('http').Server(app);
-var env = 'development';
+var env = process.env.ENV || 'dev'; //dev or prod
 var config = require('./config')[env];
 
 app.engine('html', require('ejs').renderFile); 
