@@ -24,15 +24,12 @@ const env = process.env.ENV || 'dev'; //dev, test, or prod
 var sequelize;
 
 if (env === 'dev' || env === 'test') {
-  console.log('dev or test');
   sequelize = new Sequelize('wikiDb', null, null, {
       dialect: "sqlite",
       storage: './wiki.sqlite',
   });
 } else if (env === 'prod') {
-  console.log('prod');
-  const config = require('../config')[env];
-  sequelize = new Sequelize(config.uri, {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: true

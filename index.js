@@ -10,11 +10,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 const http = require('http').Server(app);
 const env = process.env.ENV || 'dev'; //dev, test, or prod
-if (env === 'test') {
-    var config = {secret: "TEST_SECRET"};
-} else {
-    var config = require('./config')[env];
-}
+var sessionSecret = process.env.SESSION_SECRET || 'TEST_SECRET';
 
 app.engine('html', require('ejs').renderFile); 
 app.set('view engine', 'html');
@@ -25,7 +21,7 @@ app.use(cookieParser());
 app.use(logError);
 app.use(session({
     key: 'userId',
-    secret: config.secret,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
