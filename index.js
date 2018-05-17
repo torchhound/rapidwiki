@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3');
 const session = require('express-session');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const api = require('./routes/api');
 const views = require('./routes/views')
@@ -12,6 +14,7 @@ const http = require('http').Server(app);
 const env = process.env.ENV || 'dev'; //dev, test, or prod
 var sessionSecret = process.env.SESSION_SECRET || 'TEST_SECRET';
 
+app.use(helmet());
 app.engine('html', require('ejs').renderFile); 
 app.set('view engine', 'html');
 app.use(express.static('views'));
@@ -34,6 +37,7 @@ app.use((req, res, next) => {
     }
     next();
 });
+app.use(compression());
 app.use('/api', api);
 app.use('/', views);
 app.use(function(req, res) {
