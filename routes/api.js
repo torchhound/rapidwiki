@@ -64,7 +64,8 @@ router.post('/create', function(req, res, next) {
       .then(x => {
         let computedDiff = [{count: 1, added: true, value: req.body.body}];
         sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
-          hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
+          hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+          user: req.session.user.username})
         .then(y => {
           res.status(200).send({"create": "Page successfully created!"});
         })
@@ -203,7 +204,8 @@ router.patch('/edit', function(req, res, next) {
         } else {
           let computedDiff = jsDiff.diffChars(page.body, req.body.body);
           sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
-            hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
+            hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            user: req.session.user.username})
           .then(x => {
             page.updateAttributes({
               body: req.body.body,

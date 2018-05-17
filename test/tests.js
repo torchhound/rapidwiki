@@ -6,83 +6,6 @@ var fs = require('fs');
 
 const app = require('../index');
 
-test('get /', assert => {
-  request(app)
-    .get('/')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /, test passed!');
-      assert.end();
-    });
-});
-
-test('get /search', assert => {
-  request(app)
-    .get('/search')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /search, test passed!');
-      assert.end();
-    });
-});
-
-test('get /create', assert => {
-  request(app)
-    .get('/create')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /create, test passed!');
-      assert.end();
-    });
-});
-
-test('get /all', assert => {
-  request(app)
-    .get('/all')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /all, test passed!');
-      assert.end();
-    });
-});
-
-test('get /recent', assert => {
-  request(app)
-    .get('/recent')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /recent, test passed!');
-      assert.end();
-    });
-});
-
-test('get /categories', assert => {
-  request(app)
-    .get('/categories')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /categories, test passed!');
-      assert.end();
-    });
-});
-
-test('get /files', assert => {
-  request(app)
-    .get('/files')
-    .expect(200)
-    .end((err, res) => {
-      if (err) return assert.fail(err);
-      assert.pass('Got /files, test passed!');
-      assert.end();
-    });
-});
-
 describe('Wiki Integration Test', function() {
 	before(function() {
 		var sequelize = new Sequelize('wikiDb', null, null, {
@@ -100,6 +23,7 @@ describe('Wiki Integration Test', function() {
 
 		sequelize.Page = sequelize.import('../models/Page');
 		sequelize.Diff = sequelize.import('../models/Diff');
+		sequelize.User = sequelize.import('../models/User');
 
 		sequelize.sync({ force: true })
 			.then(function(data) {
@@ -109,6 +33,106 @@ describe('Wiki Integration Test', function() {
 			}
 		);		
 	});
+
+	test('post /api/auth/signup', assert => {
+		request(app)
+			.post('/api/auth/signup')
+			.send({"username": "fake@faker.net", "password": "fake"})
+			.expect(200)
+			.end((err, res) => {
+				if (err) return assert.fail(err);
+				assert.pass('Created a new user successfully, test passed!');
+				assert.end();
+			})
+	});	
+
+	test('get /', assert => {
+	  request(app)
+	    .get('/')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /auth', assert => {
+	  request(app)
+	    .get('/auth')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /auth, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /search', assert => {
+	  request(app)
+	    .get('/search')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /search, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /create', assert => {
+	  request(app)
+	    .get('/create')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /create, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /all', assert => {
+	  request(app)
+	    .get('/all')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /all, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /recent', assert => {
+	  request(app)
+	    .get('/recent')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /recent, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /categories', assert => {
+	  request(app)
+	    .get('/categories')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /categories, test passed!');
+	      assert.end();
+	    });
+	});
+
+	test('get /files', assert => {
+	  request(app)
+	    .get('/files')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Got /files, test passed!');
+	      assert.end();
+	    });
+	});	
 
 	test('post /api/create', assert => {
 		request(app)
@@ -238,4 +262,29 @@ describe('Wiki Integration Test', function() {
 				assert.end();
 			})
 	});
+
+	test('get /api/auth/logout', assert => {
+	  request(app)
+	    .get('/api/auth/logout')
+	    .expect(200)
+	    .end((err, res) => {
+	      if (err) return assert.fail(err);
+	      assert.pass('Logged out a user successfully, test passed!');
+	      assert.end();
+	    });
+	});	
+
+	test('post /api/auth/login', assert => {
+		request(app)
+			.post('/api/auth/login')
+			.send({"username": "fake@faker.net", "password": "fake"})
+			.expect(200)
+			.end((err, res) => {
+				if (err) return assert.fail(err);
+				assert.pass('Logged in a user successfully, test passed!');
+				assert.end();
+			})
+	});
+
+	//process.exit(0);
 });

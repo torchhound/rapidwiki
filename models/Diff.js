@@ -8,7 +8,8 @@ module.exports = function(sequelize, DataTypes) {
     	difference: Sequelize.JSON,
     	category: Sequelize.TEXT,
     	hash: Sequelize.TEXT,
-      timestamp: Sequelize.TEXT
+      timestamp: Sequelize.TEXT,
+      user: Sequelize.STRING
 	});
   return Diff;
 };

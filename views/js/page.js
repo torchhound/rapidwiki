@@ -23,8 +23,8 @@ function prepareEditForm(data) {
 	$('#historyOutput').empty();
 	for (var i = data.diff.length - 1; i >= 0; i--) {
 		$('#historyOutput').append($("<li><div class='row card'><div class='col-md-12 card-body'><b>" + data.diff[i].hash + 
-			"</b><p>" + data.diff[i].difference + "</p><p><b>Category: </b>" + data.diff[i].category +"</p><p></p><p><b>Edited: </b>" 
-			+ data.diff[i].timestamp + "</p></div></div>"));
+			"</b><p>" + data.diff[i].difference + "</p><p><b>Category: </b>" + data.diff[i].category +"</p><p></p><p><b>Timestamp: </b>" 
+			+ data.diff[i].timestamp + "</p><b>Edited By: </b>" + data.diff[i].user + "</div></div>"));
 	}
 	$('#title').empty().val(data.raw.title);
 	$('#body').empty().val(data.raw.body);
