@@ -3,7 +3,12 @@ const config = {
 		secret: ''
 	},
 	prod: {
-
+		secret: '',
+		database: '',
+		host: '',
+		port: 0,
+		username: '',
+		password: ''
 	}
 };
 
