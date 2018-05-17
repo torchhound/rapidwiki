@@ -32,10 +32,11 @@ if (env === 'dev' || env === 'test') {
 } else if (env === 'prod') {
   console.log('prod');
   const config = require('../config')[env];
-  sequelize = new Sequelize(config.database, config.username, config.password, {
+  sequelize = new Sequelize(config.uri, {
     dialect: 'postgres',
-    host: config.host,
-    port: config.port
+    dialectOptions: {
+      ssl: true
+    }
   })
 }
 
