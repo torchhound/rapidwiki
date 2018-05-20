@@ -8,7 +8,10 @@ module.exports = function(sequelize, DataTypes) {
   		unique: true,
       allowNull:false,
       validate: {
-        is: /^[a-z0-9\s]+/gi
+        len: {
+          args: [1, 60],
+          msg: 'Usernames must be less than 60 characters.'
+        }
       }
   	},
   	password: {
