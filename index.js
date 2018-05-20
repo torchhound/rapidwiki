@@ -28,7 +28,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 600000
+        maxAge: 604800000,
     }
 }));
 app.use((req, res, next) => {

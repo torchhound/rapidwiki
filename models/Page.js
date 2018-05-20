@@ -10,7 +10,12 @@ module.exports = function(sequelize, DataTypes) {
         }
     	},
     	body: Sequelize.TEXT,
-    	category: Sequelize.TEXT,
+    	category: {
+        type: Sequelize.STRING,
+        validate: {
+          is: /^[a-z0-9\s]+/gi
+        }
+      },
     	timestamp: Sequelize.TEXT
 	});
   return Page;

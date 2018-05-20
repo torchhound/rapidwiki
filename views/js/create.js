@@ -10,7 +10,8 @@
         category = $('<p>' + category + '</p>').text();
         if (title.length > maxChars) {
             title = title.substr(0, maxChars);
-        } else if (category.length > maxChars) {
+        } 
+        if (category.length > maxChars) {
             category = category.substr(0, maxChars);
         }
         title = title.replace(/[^a-z0-9\s]+/gi, '');

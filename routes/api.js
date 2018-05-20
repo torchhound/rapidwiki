@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-const maxChars = 80;
+const maxChars = 60;
 const env = process.env.ENV || 'dev'; //dev, test, or prod
 var sequelize;
 
@@ -65,7 +65,8 @@ router.post('/create', function(req, res, next) {
     let category = req.body.category;
     if (title.length > maxChars) {
       title = title.substr(0, maxChars);
-    } else if (category.length > maxChars) {
+    } 
+    if (category.length > maxChars) {
       category = category.substr(0, maxChars);
     }
     title = title.replace(/[^a-z0-9\s]+/gi, '');
@@ -74,7 +75,7 @@ router.post('/create', function(req, res, next) {
       timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')})
       .then(x => {
         let computedDiff = [{count: 1, added: true, value: req.body.body}];
-        sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
+        sequelize.Diff.create({title: title, difference: computedDiff, category: category, 
           hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
           user: req.session.user.username})
         .then(y => {
@@ -212,9 +213,14 @@ router.patch('/edit', function(req, res, next) {
       } else {
         if (page.body === req.body.body) {
           res.status(400).send({"edit": "Page update unsuccessful..."});
-        } else {
+        } else {  
+          let category = req.body.category;
+          if (category.length > maxChars) {
+            category = category.substr(0, maxChars);
+          }
+          category = category.replace(/[^a-z0-9\s]+/gi, '');
           let computedDiff = jsDiff.diffChars(page.body, req.body.body);
-          sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: req.body.category, 
+          sequelize.Diff.create({title: req.body.title, difference: computedDiff, category: category, 
             hash: crypto.createHash('md5').update(req.body.body).digest('hex'), timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
             user: req.session.user.username})
           .then(x => {
@@ -255,6 +261,7 @@ router.delete('/delete/page/:page', function(req, res, next) {
       title: req.params.page
     }
   }).then(x => {
+    console.log(x);
     res.status(200).send();
   })
 });
