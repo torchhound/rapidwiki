@@ -22,19 +22,22 @@ const upload = multer({ storage: storage });
 const maxChars = 60;
 const env = process.env.ENV || 'dev'; //dev, test, or prod
 var sequelize;
+var dbOverwrite = false;
 
 if (env === 'dev' || env === 'test') {
   sequelize = new Sequelize('wikiDb', null, null, {
       dialect: "sqlite",
       storage: './wiki.sqlite',
   });
+  dbOverwrite = true;
 } else if (env === 'prod') {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: true
     }
-  })
+  });
+  dbOverwrite = false;
 }
 
 sequelize.authenticate()
@@ -49,7 +52,7 @@ sequelize.Page = sequelize.import('../models/Page');
 sequelize.Diff = sequelize.import('../models/Diff');
 sequelize.User = sequelize.import('../models/User');
 
-sequelize.sync({ force: true })
+sequelize.sync({ force: dbOverwrite })
 	.then(function(data) {
     	console.log('Database synced!');
   }, function (err) {
