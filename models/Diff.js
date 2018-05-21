@@ -4,7 +4,6 @@ module.exports = function(sequelize, DataTypes) {
   var Diff = sequelize.define('Diff', {
     	title: {
     		type: Sequelize.STRING,
-        unique: true,
         validate: {
           is: {
             args: /^[a-z0-9\s]+/gi,
