@@ -291,7 +291,9 @@ router.post('/auth/signup', function(req, res, next) {
 
 router.post('/auth/login', function(req, res, next) {
   sequelize.User.findOne({
-    username: req.body.username
+    where: {
+      username: req.body.username
+    }
   }).then(user => {
     if (user === null || user === undefined || !user.validPassword(req.body.password)) {
       res.status(200).send({"error": "Error logging you in...", "login": false});
