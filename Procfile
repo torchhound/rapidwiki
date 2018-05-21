@@ -1,1 +1,1 @@
-web: forever index.js
+web: ENV=prod forever index.js
