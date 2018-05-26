@@ -1,13 +1,13 @@
 li {
-	white-space: pre;
-	list-style-type: none;
-	padding: 10px;
+  white-space: pre;
+  list-style-type: none;
+  padding: 10px;
 }
 
 #fileForm {
-	margin: 10px;
+  margin: 10px;
 }
 
 .deleteButtons {
-	margin-left: 10px;
+  margin-left: 10px;
 }
