@@ -234,9 +234,7 @@ router.get('/view/page/:title', function(req, res, next) {
         diff.forEach(function(history) {
           var outer;
           if (env == "production") {
-            console.log(history.difference);
             outer = history.difference;
-            console.log(outer);
           } else {
             outer = JSON.parse(history.difference);
           }
