@@ -232,7 +232,14 @@ router.get('/view/page/:title', function(req, res, next) {
         let title = '<h1>' + page.title + '</h1>';
         let html = title + '<br>' + converter.makeHtml(page.body);
         diff.forEach(function(history) {
-          let outer = JSON.parse(history.difference);
+          var outer;
+          if (env == "production") {
+            console.log(history.difference);
+            outer = history.difference;
+            console.log(outer);
+          } else {
+            outer = JSON.parse(history.difference);
+          }
           let diffHtml = "";
           outer.forEach(function(part) {
             let color = part.added ? 'green' : part.removed ? 'red' : 'grey';
