@@ -1,1 +1,1 @@
-web: ENV=prod forever index.js
+web: NODE_ENV=production forever index.js

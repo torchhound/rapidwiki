@@ -22,17 +22,17 @@ const upload = multer({
   storage: storage
 });
 const maxChars = 60;
-const env = process.env.ENV || 'dev'; //dev, test, or prod
+const env = process.env.NODE_ENV || 'development'; //development, test, or production
 var sequelize;
 var dbOverwrite = false;
 
-if (env === 'dev' || env === 'test') {
+if (env === 'development' || env === 'test') {
   sequelize = new Sequelize('wikiDb', null, null, {
     dialect: "sqlite",
     storage: './wiki.sqlite',
   });
   dbOverwrite = true;
-} else if (env === 'prod') {
+} else if (env === 'production') {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {

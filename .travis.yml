@@ -11,4 +11,4 @@ test:
   database: ":memory:"
   timeout: 500
 env:
-  - "ENV=test"
+  - "NODE_ENV=test"
