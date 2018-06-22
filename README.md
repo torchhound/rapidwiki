@@ -21,3 +21,7 @@ or
 # Testing
 
 `npm test`
+
+# Documenting
+
+`jsdoc models/ README.md -d docs`

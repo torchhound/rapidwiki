@@ -1,6 +1,13 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
+/**
+*@class User
+*@classdesc This class represents a user in our application.
+*@constructor
+*@param {string} username - A unique string identifier for each user.
+*@param {string} password - A string for securely logging in a user.
+*/
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define('User', {
     username: {
