@@ -7,7 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "rm -rf wiki.sqlite && mocha test/tests.js"
+    "test": "rm -rf wiki.sqlite && mocha test/tests.js",
+    "initialize": "npm install && mkdir views/uploads",
+    "single": "node index.js",
+    "dev": "nodemon",
+    "document": "jsdoc models/ README.md -d docs"
   },
   "repository": {
     "type": "git",

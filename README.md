@@ -8,15 +8,15 @@ Wiki built with Express, Sqlite, Sequelize, and Bootstrap.
 
 # Installing
 
-`npm install && mkdir views/uploads`
+`npm run initialize`
 
 # Running
 
-`nodemon` or specify a port with `PORT=5005 nodemon`.
+`npm run dev` or specify a port with `PORT=5005 npm run dev`.
 
 or
 
-`node index.js` or specify a port with `PORT=5002 node index.js`.
+`npm run single` or specify a port with `PORT=5002 npm run single`.
 
 # Testing
 
@@ -24,4 +24,4 @@ or
 
 # Documenting
 
-`jsdoc models/ README.md -d docs`
+`npm run document`
