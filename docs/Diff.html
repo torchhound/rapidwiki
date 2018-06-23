@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Page</title>
+    <title>JSDoc: Class: Diff</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Page</h1>
+    <h1 class="page-title">Class: Diff</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Page<span class="signature">(title, body, category, timestamp)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Diff<span class="signature">(title, difference, category, hash, timestamp, user)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">This class represents a page on the wiki.</div>
+            <div class="class-description">This class represents a page version on the wiki.</div>
         
     
 </header>
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Page"><span class="type-signature"></span>new Page<span class="signature">(title, body, category, timestamp)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Diff"><span class="type-signature"></span>new Diff<span class="signature">(title, difference, category, hash, timestamp, user)</span><span class="type-signature"></span></h4>
     
 
     
@@ -108,13 +108,13 @@
 
         <tr>
             
-                <td class="name"><code>body</code></td>
+                <td class="name"><code>difference</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">JSON</span>
 
 
             
@@ -124,7 +124,7 @@
 
             
 
-            <td class="description last">A markdown string containing the body of the page.</td>
+            <td class="description last">A JSON representation of the computed difference between the old and new versions of the body.</td>
         </tr>
 
     
@@ -154,6 +154,29 @@
 
         <tr>
             
+                <td class="name"><code>hash</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A string hash of the body.</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>timestamp</code></td>
             
 
@@ -171,6 +194,29 @@
             
 
             <td class="description last">A string representing the time the page was created.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The user who made the change.</td>
         </tr>
 
     
@@ -211,7 +257,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Page.js.html">Page.js</a>, <a href="Page.js.html#line3">line 3</a>
+        <a href="Diff.js.html">Diff.js</a>, <a href="Diff.js.html#line3">line 3</a>
     </li></ul></dd>
     
 

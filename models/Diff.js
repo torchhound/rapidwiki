@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 
 /**
-*@class Page
+*@class Diff
 *@classdesc This class represents a page version on the wiki.
 *@constructor
 *@param {string} title - A unique string for the title of the page.
