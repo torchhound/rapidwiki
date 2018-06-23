@@ -6,6 +6,8 @@ Wiki built with Express, Sqlite, Sequelize, and Bootstrap.
 
 [Heroku Production Environment](https://rapidwiki.herokuapp.com/)
 
+[Online Documentation](https://ndrgrnd.net/rapidwiki/)
+
 # Installing
 
 `npm run initialize`

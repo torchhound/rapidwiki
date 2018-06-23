@@ -11,7 +11,7 @@
     "initialize": "npm install && mkdir views/uploads",
     "single": "node index.js",
     "dev": "nodemon",
-    "document": "jsdoc models/ README.md -d docs"
+    "document": "rm -rf docs/ && jsdoc models/ README.md -d docs"
   },
   "repository": {
     "type": "git",
