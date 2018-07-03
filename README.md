@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/torchhound/rapidwiki.svg?branch=master)](https://travis-ci.org/torchhound/rapidwiki)
 
-Wiki built with Express, Sqlite, Sequelize, and Bootstrap.
+Wiki built with Express, SQLite/PostgreSQL, Sequelize, and Bootstrap.
 
 [Heroku Production Environment](https://rapidwiki.herokuapp.com/)
 

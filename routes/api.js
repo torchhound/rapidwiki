@@ -76,44 +76,48 @@ router.post('/create', function(req, res, next) {
     }
     title = title.replace(/[^a-z0-9\s]+/gi, '');
     category = category.replace(/[^a-z0-9\s]+/gi, '');
-    sequelize.Page.create({
-        title: title,
-        body: req.body.body,
-        category: category,
-        timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')
-      })
-      .then(x => {
-        let computedDiff = [{
-          count: 1,
-          added: true,
-          value: req.body.body
-        }];
-        sequelize.Diff.create({
-            title: title,
-            difference: computedDiff,
-            category: category,
-            hash: crypto.createHash('md5').update(req.body.body).digest('hex'),
-            timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
-            user: req.session.user.username
-          })
-          .then(y => {
-            res.status(200).send({
-              "create": "Page successfully created!"
-            });
-          })
-          .catch(err => {
-            res.status(200).send({
-              "create": "",
-              "error": `Database diff error: ${err}`
-            });
-          })
-      })
-      .catch(err => {
-        res.status(200).send({
-          "create": "",
-          "error": `Database page error: ${err}`
-        });
-      })
+    if (title.trim() === '' || category.trim() === '') {
+
+    } else {
+      sequelize.Page.create({
+          title: title,
+          body: req.body.body,
+          category: category,
+          timestamp: moment().format('MMMM Do YYYY, h:mm:ss a')
+        })
+        .then(x => {
+          let computedDiff = [{
+            count: 1,
+            added: true,
+            value: req.body.body
+          }];
+          sequelize.Diff.create({
+              title: title,
+              difference: computedDiff,
+              category: category,
+              hash: crypto.createHash('md5').update(req.body.body).digest('hex'),
+              timestamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
+              user: req.session.user.username
+            })
+            .then(y => {
+              res.status(200).send({
+                "create": "Page successfully created!"
+              });
+            })
+            .catch(err => {
+              res.status(200).send({
+                "create": "",
+                "error": `Database diff error: ${err}`
+              });
+            })
+        })
+        .catch(err => {
+          res.status(200).send({
+            "create": "",
+            "error": `Database page error: ${err}`
+          });
+        })
+    }
   }
 });
 

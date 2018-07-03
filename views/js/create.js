@@ -17,7 +17,7 @@ $(document).ready(function() {
     title = title.replace(/[^a-z0-9\s]+/gi, '');
     category = category.replace(/[^a-z0-9\s]+/gi, '');
 
-    if (title === '' || body === '' || category === '') {
+    if (title === '' || body === '' || category === '' || title.trim() === '' || category.trim() === '') {
       $('#formWarning').show();
     } else {
       $.ajax({
