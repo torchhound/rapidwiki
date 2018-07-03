@@ -8,6 +8,8 @@ const multer = require('multer');
 const fs = require('fs');
 const del = require('del');
 
+const sessioncheck = require('./sessioncheck');
+
 const fileDirectory = './views/uploads/';
 const router = express.Router();
 const converter = new showdown.Converter();
@@ -62,7 +64,7 @@ sequelize.sync({
     console.log('An error occurred while creating the table:', err);
   });
 
-router.post('/create', function(req, res, next) {
+router.post('/create', sessioncheck.sessionChecker, function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
@@ -115,7 +117,7 @@ router.post('/create', function(req, res, next) {
   }
 });
 
-router.get('/all', function(req, res, next) {
+router.get('/all', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.all({
     raw: true
   }).then(pages => {
@@ -127,7 +129,7 @@ router.get('/all', function(req, res, next) {
   })
 });
 
-router.get('/categories', function(req, res, next) {
+router.get('/categories', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.all({
     raw: true,
     attributes: [
@@ -142,7 +144,7 @@ router.get('/categories', function(req, res, next) {
   })
 });
 
-router.get('/recent', function(req, res, next) {
+router.get('/recent', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.all({
     raw: true,
     limit: 50,
@@ -158,7 +160,7 @@ router.get('/recent', function(req, res, next) {
   })
 });
 
-router.post('/search', function(req, res, next) {
+router.post('/search', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.all({
     raw: true,
     limit: 50,
@@ -176,7 +178,7 @@ router.post('/search', function(req, res, next) {
   })
 });
 
-router.get('/view/category/:category', function(req, res, next) {
+router.get('/view/category/:category', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.all({
     raw: true,
     where: {
@@ -191,7 +193,7 @@ router.get('/view/category/:category', function(req, res, next) {
   })
 });
 
-router.get('/view/page/:title', function(req, res, next) {
+router.get('/view/page/:title', sessioncheck.sessionChecker, function(req, res, next) {
   return Promise.all([
       sequelize.Page.findOne({
         raw: true,
@@ -236,7 +238,7 @@ router.get('/view/page/:title', function(req, res, next) {
     })
 });
 
-router.patch('/edit', function(req, res, next) {
+router.patch('/edit', sessioncheck.sessionChecker, function(req, res, next) {
   if (Object.keys(req.body).length === 0 && req.body.constructor === Object) {
     res.status(400).send('Empty JSON');
   } else {
@@ -283,7 +285,7 @@ router.patch('/edit', function(req, res, next) {
   }
 });
 
-router.post('/file', upload.single('file'), function(req, res, next) {
+router.post('/file', sessioncheck.sessionChecker, upload.single('file'), function(req, res, next) {
   if (!req.file) {
     res.status(400).send('No file present...');
   } else {
@@ -293,7 +295,7 @@ router.post('/file', upload.single('file'), function(req, res, next) {
   }
 });
 
-router.get('/files', function(req, res, next) {
+router.get('/files', sessioncheck.sessionChecker, function(req, res, next) {
   let uploadedFiles = [];
   fs.readdirSync(fileDirectory).forEach(file => {
     uploadedFiles.push(file);
@@ -303,7 +305,7 @@ router.get('/files', function(req, res, next) {
   });
 });
 
-router.delete('/delete/page/:page', function(req, res, next) {
+router.delete('/delete/page/:page', sessioncheck.sessionChecker, function(req, res, next) {
   sequelize.Page.destroy({
     where: {
       title: req.params.page
@@ -313,7 +315,7 @@ router.delete('/delete/page/:page', function(req, res, next) {
   })
 });
 
-router.delete('/delete/file/:file', function(req, res, next) {
+router.delete('/delete/file/:file', sessioncheck.sessionChecker, function(req, res, next) {
   console.log('delete' + fileDirectory + req.params.file);
   del([fileDirectory + req.params.file])
     .then(x => {
@@ -354,7 +356,7 @@ router.post('/auth/login', function(req, res, next) {
   })
 });
 
-router.get('/auth/logout', function(req, res, next) {
+router.get('/auth/logout', sessioncheck.sessionChecker, function(req, res, next) {
   if (req.session.user && req.cookies.userId) {
     res.clearCookie('userId');
     res.status(200).send({

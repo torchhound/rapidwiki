@@ -51,7 +51,7 @@ describe('Wiki Integration Test', function() {
         })
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Created a new user successfully, test passed!');
           cookies = res.headers['set-cookie'].pop().split(';')[0];
           assert.end();
@@ -63,7 +63,7 @@ describe('Wiki Integration Test', function() {
         .get('/')
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /, test passed!');
           assert.end();
         });
@@ -74,7 +74,7 @@ describe('Wiki Integration Test', function() {
         .get('/auth')
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /auth, test passed!');
           assert.end();
         });
@@ -86,7 +86,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /search, test passed!');
           assert.end();
         });
@@ -98,7 +98,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /create, test passed!');
           assert.end();
         });
@@ -110,7 +110,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /all, test passed!');
           assert.end();
         });
@@ -122,7 +122,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /recent, test passed!');
           assert.end();
         });
@@ -134,7 +134,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /categories, test passed!');
           assert.end();
         });
@@ -146,7 +146,7 @@ describe('Wiki Integration Test', function() {
         .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /files, test passed!');
           assert.end();
         });
@@ -155,6 +155,7 @@ describe('Wiki Integration Test', function() {
     test('post /api/create', assert => {
       request(app)
         .post('/api/create')
+        .set('Cookie', cookies)
         .send({
           "title": "test title",
           "body": "##test body heading",
@@ -162,7 +163,7 @@ describe('Wiki Integration Test', function() {
         })
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Created a new page successfully, test passed!');
           assert.end();
         })
@@ -171,10 +172,11 @@ describe('Wiki Integration Test', function() {
     test('get /api/all', assert => {
       request(app)
         .get('/api/all')
+        .set('Cookie', cookies)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got all pages successfully, test passed!');
           assert.end();
         })
@@ -183,10 +185,11 @@ describe('Wiki Integration Test', function() {
     test('get /api/categories', assert => {
       request(app)
         .get('/api/categories')
+        .set('Cookie', cookies)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got all categories successfully, test passed!');
           assert.end();
         })
@@ -195,10 +198,11 @@ describe('Wiki Integration Test', function() {
     test('get /api/recent', assert => {
       request(app)
         .get('/api/recent')
+        .set('Cookie', cookies)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got all recent pages successfully, test passed!');
           assert.end();
         })
@@ -207,12 +211,13 @@ describe('Wiki Integration Test', function() {
     test('post /api/search', assert => {
       request(app)
         .post('/api/search')
+        .set('Cookie', cookies)
         .send({
           "search": "test title"
         })
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Searched a page successfully, test passed!');
           assert.end();
         })
@@ -221,10 +226,11 @@ describe('Wiki Integration Test', function() {
     test('get /api/view/category/tests', assert => {
       request(app)
         .get('/api/view/category/tests')
+        .set('Cookie', cookies)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got all pages in category tests successfully, test passed!');
           assert.end();
         })
@@ -234,9 +240,10 @@ describe('Wiki Integration Test', function() {
       request(app)
         .get('/view/category/tests')
         .set('Cookie', cookies)
+        .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /view/category/tests, test passed!');
           assert.end();
         });
@@ -245,10 +252,11 @@ describe('Wiki Integration Test', function() {
     test('get /api/view/page/test%20title', assert => {
       request(app)
         .get('/api/view/page/test%20title')
+        .set('Cookie', cookies)
         .expect(200)
         .expect('Content-Type', /json/)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got test title successfully, test passed!');
           assert.end();
         })
@@ -258,9 +266,10 @@ describe('Wiki Integration Test', function() {
       request(app)
         .get('/view/page/test%20title')
         .set('Cookie', cookies)
+        .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Got /view/page/test%20title, test passed!');
           assert.end();
         });
@@ -270,6 +279,7 @@ describe('Wiki Integration Test', function() {
       request(app)
         .patch('/api/edit')
         .set('Cookie', cookies)
+        .set('Cookie', cookies)
         .send({
           "title": "test title",
           "body": "##new test body heading",
@@ -277,7 +287,7 @@ describe('Wiki Integration Test', function() {
         })
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Edited test title successfully, test passed!');
           assert.end();
         })
@@ -286,9 +296,10 @@ describe('Wiki Integration Test', function() {
     test('delete /api/delete/page/test%20title', assert => {
       request(app)
         .delete('/api/delete/page/test%20title')
+        .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Deleted test title successfully, test passed!');
           assert.end();
         })
@@ -297,9 +308,10 @@ describe('Wiki Integration Test', function() {
     test('get /api/auth/logout', assert => {
       request(app)
         .get('/api/auth/logout')
+        .set('Cookie', cookies)
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Logged out a user successfully, test passed!');
           assert.end();
         });
@@ -314,7 +326,7 @@ describe('Wiki Integration Test', function() {
         })
         .expect(200)
         .end((err, res) => {
-          if (err) return assert.fail(err);
+          if (err) return assert.fail(err + " " + JSON.stringify(res));
           assert.pass('Logged in a user successfully, test passed!');
           sequelize.connectionManager.close().then(() => done());
           assert.end();

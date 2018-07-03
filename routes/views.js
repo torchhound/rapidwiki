@@ -1,50 +1,44 @@
-var express = require('express');
+const express = require('express');
 const session = require('express-session');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
+
+const sessioncheck = require('./sessioncheck');
 
 var router = express.Router();
-
-function sessionChecker(req, res, next) {
-  if (!req.session.user || !req.cookies.userId) {
-    res.redirect('/auth');
-  } else {
-    next();
-  }
-}
 
 router.get('/', function(req, res, next) {
   res.render('home.html');
 });
 
-router.get('/search', sessionChecker, function(req, res, next) {
+router.get('/search', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('search.html');
 });
 
-router.get('/create', sessionChecker, function(req, res, next) {
+router.get('/create', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('create.html');
 });
 
-router.get('/all', sessionChecker, function(req, res, next) {
+router.get('/all', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('all.html');
 });
 
-router.get('/recent', sessionChecker, function(req, res, next) {
+router.get('/recent', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('recent.html');
 });
 
-router.get('/categories', sessionChecker, function(req, res, next) {
+router.get('/categories', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('categories.html');
 });
 
-router.get('/view/category/*', sessionChecker, function(req, res, next) {
+router.get('/view/category/*', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('category.html');
 });
 
-router.get('/view/page/*', sessionChecker, function(req, res, next) {
+router.get('/view/page/*', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('page.html');
 });
 
-router.get('/files', sessionChecker, function(req, res, next) {
+router.get('/files', sessioncheck.sessionChecker, function(req, res, next) {
   res.render('files.html');
 });
 
