@@ -15,17 +15,14 @@ $(document).ready(function() {
         }),
         contentType: "application/json",
         success: function(data) {
-          $('#output').empty();
-          if (data[0].title === "") {
-            $('#output').append($("<li><b>" + data[0].error + "</b>"));
-          } else {
-            for (var i = data.length - 1; i >= 0; i--) {
-              $('#output').append($("<li><a href='/view/page/" + data[i].title + "'>" + data[i].title + "</a>"));
-            }
+          for (var i = data.length - 1; i >= 0; i--) {
+            $('#output').empty().append($("<li><a href='/view/page/" + data[i].title + "'>" + data[i].title + "</a>"));
           }
         },
-        failure: function(jqXHR, textStatus, errorThrown) {
-          $('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400) {  
+            $('#output').empty().append($("<li><b>" + jqXHR.responseText + "</b>"));
+          }
         }
       });
     };

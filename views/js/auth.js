@@ -17,12 +17,12 @@ $(document).ready(function() {
         success: function(data) {
           if (data.login === true) {
             window.location.href = "/create";
-          } else {
-            window.location.href = "/auth";
           }
         },
-        failure: function(jqXHR, textStatus, errorThrown) {
-          $('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400 && jqXHR.responseJSON.login === false) {  
+            window.location.href = "/auth";
+          }
         }
       });
     };
@@ -48,12 +48,12 @@ $(document).ready(function() {
         success: function(data) {
           if (data.signup === true) {
             window.location.href = "/create";
-          } else {
-            window.location.href = "/auth";
           }
         },
-        failure: function(jqXHR, textStatus, errorThrown) {
-          $('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400) {  
+            window.location.href = "/auth";
+          }
         }
       });
     };
@@ -68,12 +68,12 @@ $(document).ready(function() {
       success: function(data) {
         if (data.logout === true) {
           window.location.href = "/";
-        } else {
-          window.location.href = "/auth";
         }
       },
-      failure: function(jqXHR, textStatus, errorThrown) {
-        $('formResponse').html('There has been a problem with your post operation: ' + jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
+      error: function(jqXHR, textStatus, errorThrown) { 
+        if(jqXHR.status == 400 && jqXHR.responseJSON.logout === false) {  
+          window.location.href = "/auth";
+        }
       }
     });
   });

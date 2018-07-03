@@ -77,7 +77,7 @@ router.post('/create', function(req, res, next) {
     title = title.replace(/[^a-z0-9\s]+/gi, '');
     category = category.replace(/[^a-z0-9\s]+/gi, '');
     if (title.trim() === '' || category.trim() === '') {
-
+      res.status(200).send('Database page error: Title and Category must contain more than spaces');
     } else {
       sequelize.Page.create({
           title: title,
@@ -105,17 +105,11 @@ router.post('/create', function(req, res, next) {
               });
             })
             .catch(err => {
-              res.status(200).send({
-                "create": "",
-                "error": `Database diff error: ${err}`
-              });
+              res.status(400).send(`Database diff error: ${err}`);
             })
         })
         .catch(err => {
-          res.status(200).send({
-            "create": "",
-            "error": `Database page error: ${err}`
-          });
+          res.status(400).send(`Database page error: ${err}`);
         })
     }
   }
@@ -126,10 +120,7 @@ router.get('/all', function(req, res, next) {
     raw: true
   }).then(pages => {
     if (pages === undefined || pages.length == 0) {
-      res.status(200).send([{
-        "title": "",
-        "error": "No pages in database"
-      }]);
+      res.status(400).send('No pages in database');
     } else {
       res.status(200).send(pages);
     }
@@ -144,10 +135,7 @@ router.get('/categories', function(req, res, next) {
     ]
   }).then(categories => {
     if (categories === undefined || categories.length == 0) {
-      res.status(200).send([{
-        "category": "",
-        "error": "No categories in database"
-      }]);
+      res.status(400).send('No categories in database');
     } else {
       res.status(200).send(categories);
     }
@@ -163,10 +151,7 @@ router.get('/recent', function(req, res, next) {
     ]
   }).then(recent => {
     if (recent === undefined || recent.length == 0) {
-      res.status(200).send([{
-        "title": "",
-        "error": "Nothing recent in database"
-      }]);
+      res.status(400).send('Nothing recent in database');
     } else {
       res.status(200).send(recent);
     }
@@ -184,10 +169,7 @@ router.post('/search', function(req, res, next) {
     }
   }).then(results => {
     if (results === undefined || results.length == 0) {
-      res.status(200).send([{
-        "title": "",
-        "error": "No results in database"
-      }]);
+      res.status(400).send('No results in database');
     } else {
       res.status(200).send(results);
     }
@@ -202,9 +184,7 @@ router.get('/view/category/:category', function(req, res, next) {
     }
   }).then(constituents => {
     if (constituents === undefined || constituents.length == 0) {
-      res.status(200).send([{
-        "title": "Nothing in that category in database"
-      }]);
+      res.status(400).send('Nothing in that category in database');
     } else {
       res.status(200).send(constituents);
     }
@@ -228,10 +208,7 @@ router.get('/view/page/:title', function(req, res, next) {
     ])
     .then(([page, diff]) => {
       if (page === undefined || page === null || diff === undefined || diff === null) {
-        res.status(200).send({
-          "html": "<h1>No such page in database</h1>",
-          "empty": "true"
-        });
+        res.status(400).send('<h1>No such page in database</h1>');
       } else {
         let title = '<h1>' + page.title + '</h1>';
         let html = title + '<br>' + converter.makeHtml(page.body);
@@ -252,7 +229,6 @@ router.get('/view/page/:title', function(req, res, next) {
         });
         res.status(200).send({
           "html": html,
-          "empty": "false",
           "raw": page,
           "diff": diff
         });
@@ -270,14 +246,10 @@ router.patch('/edit', function(req, res, next) {
       }
     }).then(page => {
       if (page === undefined || page === null) {
-        res.status(400).send({
-          "edit": "Page not found"
-        });
+        res.status(400).send('Page not found');
       } else {
         if (page.body === req.body.body) {
-          res.status(400).send({
-            "edit": "Page update unsuccessful..."
-          });
+          res.status(400).send('Page update unsuccessful...');
         } else {
           let category = req.body.category;
           if (category.length > maxChars) {
@@ -302,9 +274,7 @@ router.patch('/edit', function(req, res, next) {
                   "edit": "Page successfully updated!"
                 });
               }).catch(function() {
-                res.status(400).send({
-                  "edit": "Page update unsuccessful..."
-                });
+                res.status(400).send('Page update unsuccessful...');
               })
             })
         }
@@ -315,14 +285,10 @@ router.patch('/edit', function(req, res, next) {
 
 router.post('/file', upload.single('file'), function(req, res, next) {
   if (!req.file) {
-    res.status(200).send({
-      "files": "No file present...",
-      "error": true
-    });
+    res.status(400).send('No file present...');
   } else {
     res.status(200).send({
-      "files": "Files uploaded successfully!",
-      "error": false
+      "files": "Files uploaded successfully!"
     });
   }
 });
@@ -365,10 +331,7 @@ router.post('/auth/signup', function(req, res, next) {
       "signup": true
     });
   }).catch(error => {
-    res.status(200).send({
-      "error": error,
-      "signup": false
-    });
+    res.status(400).send(error);
   });
 });
 
@@ -379,8 +342,7 @@ router.post('/auth/login', function(req, res, next) {
     }
   }).then(user => {
     if (user === null || user === undefined || !user.validPassword(req.body.password)) {
-      res.status(200).send({
-        "error": "Error logging you in...",
+      res.status(400).send({
         "login": false
       });
     } else {
@@ -399,7 +361,7 @@ router.get('/auth/logout', function(req, res, next) {
       "logout": true
     });
   } else {
-    res.status(200).send({
+    res.status(400).send({
       "logout": false
     });
   }

@@ -30,17 +30,18 @@ $(document).ready(function() {
         }),
         contentType: "application/json",
         success: function(data) {
-          if (data.create === "") {
+          $('#formResponse').removeClass("alert-danger").addClass("alert-info");
+          $('#formResponseSpan').empty().append(data.create);
+          $('#formResponse').show();
+          form.each(function() {
+            this.reset();
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400) { 
             $('#formResponse').removeClass("alert-info").addClass("alert-danger");
-            $('#formResponseSpan').empty().append(data.error);
+            $('#formResponseSpan').empty().append(jqXHR.responseText);
             $('#formResponse').show();
-          } else {
-            $('#formResponse').removeClass("alert-danger").addClass("alert-info");
-            $('#formResponseSpan').empty().append(data.create);
-            $('#formResponse').show();
-            form.each(function() {
-              this.reset();
-            });
           }
         }
       });

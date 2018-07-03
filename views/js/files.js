@@ -46,13 +46,14 @@ $(document).ready(function() {
         contentType: false,
         processData: false,
         success: function(data) {
-          if (data.error === true) {
-            $('#formResponseSpan').empty().append(data.files);
+          $('#formResponseSpan').empty().append(data.files);
+          $('#formResponse').show();
+          location.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400) {  
+            $('#formResponseSpan').empty().append(jqXHR.responseText);
             $('#formResponse').show();
-          } else {
-            $('#formResponseSpan').empty().append(data.files);
-            $('#formResponse').show();
-            location.reload();
           }
         }
       });

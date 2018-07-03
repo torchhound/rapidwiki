@@ -55,9 +55,11 @@ $(document).ready(function() {
           $('#formResponse').show();
           location.reload();
         },
-        failure: function(jqXHR, textStatus, errorThrown) {
-          $('formResponse').html('There has been a problem with your post operation: ' +
-            jqXHR.responseText + ' ' + textStatus + ' ' + errorThrown).show();
+        error: function(jqXHR, textStatus, errorThrown) { 
+          if(jqXHR.status == 400) {  
+            $('#formResponseSpan').empty().append(jqXHR.responseText);
+          $('#formResponse').show();
+          }
         }
       });
     };
