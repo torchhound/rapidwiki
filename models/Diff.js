@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 /**
 *@class Diff
@@ -11,7 +11,7 @@ const Sequelize = require('sequelize');
 *@param {string} timestamp - A string representing the time the page was created.
 *@param {string} user - The user who made the change.
 */
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Diff = sequelize.define('Diff', {
     title: {
       type: Sequelize.STRING,
@@ -43,6 +43,6 @@ module.exports = function(sequelize, DataTypes) {
     hash: Sequelize.TEXT,
     timestamp: Sequelize.TEXT,
     user: Sequelize.STRING
-  });
-  return Diff;
-};
+  })
+  return Diff
+}

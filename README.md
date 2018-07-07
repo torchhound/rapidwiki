@@ -27,3 +27,9 @@ or
 # Documenting
 
 `npm run document`
+
+# Linting
+
+`npm run lint models/ routes/ tests/`
+
+`npm run lint models/ routes/ tests/ --fix`

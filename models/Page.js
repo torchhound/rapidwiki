@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 /**
 *@class Page
@@ -9,7 +9,7 @@ const Sequelize = require('sequelize');
 *@param {string} category - A string representing the category of each page.
 *@param {string} timestamp - A string representing the time the page was created.
 */
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Page = sequelize.define('Page', {
     title: {
       type: Sequelize.STRING,
@@ -40,6 +40,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     timestamp: Sequelize.TEXT
-  });
-  return Page;
-};
+  })
+  return Page
+}
