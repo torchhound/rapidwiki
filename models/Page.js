@@ -1,4 +1,4 @@
-var Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
 /**
 *@class Page
@@ -10,7 +10,7 @@ var Sequelize = require('sequelize');
 *@param {string} timestamp - A string representing the time the page was created.
 */
 module.exports = function(sequelize, DataTypes) {
-  var Page = sequelize.define('Page', {
+  let Page = sequelize.define('Page', {
     title: {
       type: Sequelize.STRING,
       unique: true,

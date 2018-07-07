@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 *@param {string} password - A string for securely logging in a user.
 */
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  let User = sequelize.define('User', {
     username: {
       type: Sequelize.STRING,
       unique: true,

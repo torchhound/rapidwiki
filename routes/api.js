@@ -25,8 +25,8 @@ const upload = multer({
 });
 const maxChars = 60;
 const env = process.env.NODE_ENV || 'development'; //development, test, or production
-var sequelize;
-var dbOverwrite = false;
+let sequelize;
+let dbOverwrite = false;
 
 if (env === 'development' || env === 'test') {
   sequelize = new Sequelize('wikiDb', null, null, {
@@ -215,7 +215,7 @@ router.get('/view/page/:title', sessioncheck.sessionChecker, function(req, res, 
         let title = '<h1>' + page.title + '</h1>';
         let html = title + '<br>' + converter.makeHtml(page.body);
         diff.forEach(function(history) {
-          var outer;
+          let outer;
           if (env == "production") {
             outer = history.difference;
           } else {

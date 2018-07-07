@@ -1,4 +1,4 @@
-var Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
 /**
 *@class Diff
@@ -12,7 +12,7 @@ var Sequelize = require('sequelize');
 *@param {string} user - The user who made the change.
 */
 module.exports = function(sequelize, DataTypes) {
-  var Diff = sequelize.define('Diff', {
+  let Diff = sequelize.define('Diff', {
     title: {
       type: Sequelize.STRING,
       validate: {

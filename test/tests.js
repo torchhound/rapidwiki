@@ -2,11 +2,12 @@ const test = require('tape');
 const request = require('supertest');
 const Sequelize = require('sequelize');
 const mocha = require('mocha');
-var fs = require('fs');
+const fs = require('fs');
 
 const app = require('../index');
-var cookies;
-var sequelize;
+
+let cookies;
+let sequelize;
 
 describe('Wiki Integration Test', function() {
   before(function(done) {

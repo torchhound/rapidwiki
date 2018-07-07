@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 
 const sessioncheck = require('./sessioncheck');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/', function(req, res, next) {
   res.render('home.html');
